@@ -152,8 +152,10 @@ class _AirPayState extends State<AirPay> {
     if (transaction.sTATUS != null) {
       if (transaction.sTATUS == '200') {
         widget.closure(true, transaction);
+        Navigator.pop(context);
       } else {
         widget.closure(false, transaction);
+        Navigator.pop(context);
       }
     }
   }
