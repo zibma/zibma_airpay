@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -93,8 +92,8 @@ class _AirPayState extends State<AirPay> {
     return url;
   }
 
-  String getProtoDomain(String  sDomain) {
-    int slashslash = sDomain .indexOf("//") + 2;
+  String getProtoDomain(String sDomain) {
+    int slashslash = sDomain.indexOf("//") + 2;
     return sDomain.substring(0, sDomain.indexOf("/", slashslash));
   }
 
@@ -221,6 +220,7 @@ class _AirPayState extends State<AirPay> {
                       onPressed: () {
                         Navigator.pop(context);
                         userCancel('User canceled');
+                        Navigator.pop(context);
                       },
                       color: Colors.blue[900],
                       child: Text(
@@ -253,165 +253,168 @@ class _AirPayState extends State<AirPay> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Image.asset(
-            'assets/airpays.png',
-            height: 40,
-            color: Colors.white,
-            width: 200,
+      child: WillPopScope(
+        onWillPop: () =>  _showConfirmation(
+            context, "Did you want to cancel this transaction ?"),
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Image.asset(
+              'assets/airpays.png',
+              height: 40,
+              color: Colors.white,
+              width: 200,
+            ),
+            leading: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () => {
+                _showConfirmation(
+                    context, "Did you want to cancel this transaction ?")
+              },
+            ),
+            backgroundColor: Colors.blue[900],
+            actions: <Widget>[],
           ),
-          leading: IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () => {
-              _showConfirmation(
-                  context, "Did you want to cancel this transaction ?")
-            },
-          ),
-          backgroundColor: Colors.blue[900],
-          actions: <Widget>[],
-        ),
-        body: Container(
-            child: Column(children: <Widget>[
-          Container(
-              // padding: EdgeInsets.all(10.0),
-              child: progress < 1.0
-                  ? SpinKitCircle(
-                      color: Colors.blue[900],
-                      size: 50.0,
-                    )
-                  : Container()),
-          (isShow
-              ? Expanded(
-                  child: InAppWebView(
-                    //initialUrl: URL,
-                    initialData: InAppWebViewInitialData(
-                      data: loadData(),
-                    ),
-                    initialOptions: InAppWebViewGroupOptions(
-                        crossPlatform: InAppWebViewOptions(
-                      // debuggingEnabled: true,
-                      javaScriptEnabled: true,
-                    )),
-                    // onTitleChanged:
-                    //     (InAppWebViewController controller, String? url) {
-                    //   setState(() {
-                    //     print("onTitleChanged : $url");
-                    //   });
-                    // },
-                    onTitleChanged: (controller, title) {
+          body: Container(
+              child: Column(children: <Widget>[
+            Container(
+                // padding: EdgeInsets.all(10.0),
+                child: progress < 1.0
+                    ? SpinKitCircle(
+                        color: Colors.blue[900],
+                        size: 50.0,
+                      )
+                    : Container()),
+            (isShow
+                ? Expanded(
+                    child: InAppWebView(
+                      //initialUrl: URL,
+                      initialData: InAppWebViewInitialData(
+                        data: loadData(),
+                      ),
+                      initialOptions: InAppWebViewGroupOptions(
+                          crossPlatform: InAppWebViewOptions(
+                        // debuggingEnabled: true,
+                        javaScriptEnabled: true,
+                      )),
+                      // onTitleChanged:
+                      //     (InAppWebViewController controller, String? url) {
+                      //   setState(() {
+                      //     print("onTitleChanged : $url");
+                      //   });
+                      // },
+                      onTitleChanged: (controller, title) {
                         setState(() {
                           print("onTitleChanged : $title");
                         });
-                    },
-                    onWebViewCreated: (InAppWebViewController controller) {},
-                    // onLoadStart:
-                    //     (InAppWebViewController controller, String url) {
-                    //   setState(() {
-                    //     print("onLoadStart : $url");
-                    //     var succesPath = getProtoDomain(widget.user.successUrl);
-                    //     var webURLPath = getProtoDomain(url);
-                    //     if (succesPath.contains("http://") &&
-                    //         webURLPath.contains("https://")) {
-                    //       webURLPath =
-                    //           webURLPath.replaceAll("https://", "http://");
-                    //     } else if (succesPath.contains("https://") &&
-                    //         webURLPath.contains("http://")) {
-                    //       webURLPath =
-                    //           webURLPath.replaceAll("http://", "https://");
-                    //     }
-                    //
-                    //     if (succesPath == webURLPath) {
-                    //       isShow = false;
-                    //       fetchDetails();
-                    //       // print("onLoadStart : Success");
-                    //     } else if (widget.user.failedUrl == webURLPath) {
-                    //       userCancel('Transaction failed');
-                    //       print("onLoadStart : Failed");
-                    //     }
-                    //   });
-                    // },
+                      },
+                      onWebViewCreated: (InAppWebViewController controller) {},
+                      // onLoadStart:
+                      //     (InAppWebViewController controller, String url) {
+                      //   setState(() {
+                      //     print("onLoadStart : $url");
+                      //     var succesPath = getProtoDomain(widget.user.successUrl);
+                      //     var webURLPath = getProtoDomain(url);
+                      //     if (succesPath.contains("http://") &&
+                      //         webURLPath.contains("https://")) {
+                      //       webURLPath =
+                      //           webURLPath.replaceAll("https://", "http://");
+                      //     } else if (succesPath.contains("https://") &&
+                      //         webURLPath.contains("http://")) {
+                      //       webURLPath =
+                      //           webURLPath.replaceAll("http://", "https://");
+                      //     }
+                      //
+                      //     if (succesPath == webURLPath) {
+                      //       isShow = false;
+                      //       fetchDetails();
+                      //       // print("onLoadStart : Success");
+                      //     } else if (widget.user.failedUrl == webURLPath) {
+                      //       userCancel('Transaction failed');
+                      //       print("onLoadStart : Failed");
+                      //     }
+                      //   });
+                      // },
                       onLoadStart: (controller, url) {
-                          setState(() {
-                            print("onLoadStart : $url");
-                            var succesPath = getProtoDomain(widget.user.successUrl!);
-                            var webURLPath = getProtoDomain(url.toString());
-                            if (succesPath.contains("http://") &&
-                                webURLPath.contains("https://")) {
-                              webURLPath =
-                                  webURLPath.replaceAll("https://", "http://");
-                            } else if (succesPath.contains("https://") &&
-                                webURLPath.contains("http://")) {
-                              webURLPath =
-                                  webURLPath.replaceAll("http://", "https://");
-                            }
+                        setState(() {
+                          print("onLoadStart : $url");
+                          var succesPath =
+                              getProtoDomain(widget.user.successUrl!);
+                          var webURLPath = getProtoDomain(url.toString());
+                          if (succesPath.contains("http://") &&
+                              webURLPath.contains("https://")) {
+                            webURLPath =
+                                webURLPath.replaceAll("https://", "http://");
+                          } else if (succesPath.contains("https://") &&
+                              webURLPath.contains("http://")) {
+                            webURLPath =
+                                webURLPath.replaceAll("http://", "https://");
+                          }
 
-                            if (succesPath == webURLPath) {
-                              isShow = false;
-                              fetchDetails();
-                              // print("onLoadStart : Success");
-                            } else if (widget.user.failedUrl == webURLPath) {
-                              userCancel('Transaction failed');
-                              print("onLoadStart : Failed");
-                            }
-                          });
+                          if (succesPath == webURLPath) {
+                            isShow = false;
+                            fetchDetails();
+                            // print("onLoadStart : Success");
+                          } else if (widget.user.failedUrl == webURLPath) {
+                            userCancel('Transaction failed');
+                            print("onLoadStart : Failed");
+                          }
+                        });
                       },
-                    // onLoadStop:
-                    //     (InAppWebViewController controller, String url) async {
-                    //   String ht = await controller.evaluateJavascript(
-                    //       source:
-                    //           "javascript:window.droid.print(document.getElementsByClassName('alert')[0].innerHTML);");
-                    //
-                    //   setState(() {
-                    //     this.url = url;
-                    //     var failurePath = widget.user
-                    //         .failedUrl; //getProtoDomain(widget.user.failedUrl);
-                    //
-                    //     if (url.startsWith(failurePath)) {
-                    //       setState(() {
-                    //         // controller.loadUrl(url: ht);
-                    //         // print('ht: $url');
-                    //         userCancel('Transaction failed');
-                    //         print('onLoad Stop in - $url');
-                    //       });
-                    //     } else {
-                    //       print('on Load Stop: not error URL: $url');
-                    //     }
-                    //   });
-                    // },
+                      // onLoadStop:
+                      //     (InAppWebViewController controller, String url) async {
+                      //   String ht = await controller.evaluateJavascript(
+                      //       source:
+                      //           "javascript:window.droid.print(document.getElementsByClassName('alert')[0].innerHTML);");
+                      //
+                      //   setState(() {
+                      //     this.url = url;
+                      //     var failurePath = widget.user
+                      //         .failedUrl; //getProtoDomain(widget.user.failedUrl);
+                      //
+                      //     if (url.startsWith(failurePath)) {
+                      //       setState(() {
+                      //         // controller.loadUrl(url: ht);
+                      //         // print('ht: $url');
+                      //         userCancel('Transaction failed');
+                      //         print('onLoad Stop in - $url');
+                      //       });
+                      //     } else {
+                      //       print('on Load Stop: not error URL: $url');
+                      //     }
+                      //   });
+                      // },
                       onLoadStop: (controller, url) async {
-                          String ht = await controller.evaluateJavascript(
-                              source:
-                                  "javascript:window.droid.print(document.getElementsByClassName('alert')[0].innerHTML);");
+                        // String ht = await controller.evaluateJavascript(
+                        //     source:
+                        //         "javascript:window.droid.print(document.getElementsByClassName('alert')[0].innerHTML);");
 
-                          setState(() {
-                            this.url = url.toString();
-                            var failurePath = widget.user
-                                .failedUrl; //getProtoDomain(widget.user.failedUrl);
+                        setState(() {
+                          this.url = url.toString();
+                          var failurePath = widget.user
+                              .failedUrl; //getProtoDomain(widget.user.failedUrl);
 
-                            if (url.toString().startsWith(failurePath!)) {
-                              setState(() {
-                                // controller.loadUrl(url: ht);
-                                // print('ht: $url');
-                                userCancel('Transaction failed');
-                                print('onLoad Stop in - $url');
-                              });
-                            } else {
-                              print('on Load Stop: not error URL: $url');
-                            }
-                          });
+                          if (url.toString().startsWith(failurePath!)) {
+                            setState(() {
+                              userCancel('Transaction failed');
+                              print('onLoad Stop in - $url');
+                            });
+                          } else {
+                            print('on Load Stop: not error URL: $url');
+                          }
+                        });
                       },
-                    onProgressChanged:
-                        (InAppWebViewController controller, int progress) {
-                      setState(() {
-                        this.progress = progress / 100;
-                      });
-                    },
-                  ),
-                )
-              : Container()),
-        ])),
+                      onProgressChanged:
+                          (InAppWebViewController controller, int progress) {
+                        setState(() {
+                          this.progress = progress / 100;
+                        });
+                      },
+                    ),
+                  )
+                : Container()),
+          ])),
+        ),
       ),
     );
   }
