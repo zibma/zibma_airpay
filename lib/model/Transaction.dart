@@ -1,31 +1,31 @@
 class Transaction {
-  String sTATUS;
-  String tXNMODE;
-  String tXNDATETIME;
-  String tXNCURRENCYCODE;
-  String tRANSACTIONID;
-  String tRANSACTIONAMT;
-  String tRANSACTIONSTATUS;
-  String sTATUSMSG;
-  String tRANSACTIONVARIANT;
-  String mERCHANTTRANSACTIONID;
-  String mERCHANTKEY;
-  String cUSTOMVAR;
-  String aPSECUREHASH;
-  String cHMOD;
-  String fULLNAME;
-  String eMAIL;
-  String cONTACTNO;
-  String iSRISK;
-  String bANKNAME;
-  CARDDETAILS cARDDETAILS;
-  String eMIDETAILS;
-  String mERCHANTNAME;
-  String sETTLEMENTDATE;
-  String sURCHARGE;
-  String bILLEDAMOUNT;
-  String rRN;
-  String tRANSACTIONREASON;
+  String? sTATUS;
+  String? tXNMODE;
+  String? tXNDATETIME;
+  String? tXNCURRENCYCODE;
+  String? tRANSACTIONID;
+  String? tRANSACTIONAMT;
+  String? tRANSACTIONSTATUS;
+  String? sTATUSMSG;
+  String? tRANSACTIONVARIANT;
+  String? mERCHANTTRANSACTIONID;
+  String? mERCHANTKEY;
+  String? cUSTOMVAR;
+  String? aPSECUREHASH;
+  String? cHMOD;
+  String? fULLNAME;
+  String? eMAIL;
+  String? cONTACTNO;
+  String? iSRISK;
+  String? bANKNAME;
+  CARDDETAILS? cARDDETAILS;
+  String? eMIDETAILS;
+  String? mERCHANTNAME;
+  String? sETTLEMENTDATE;
+  String? sURCHARGE;
+  String? bILLEDAMOUNT;
+  String? rRN;
+  String? tRANSACTIONREASON;
 
   Transaction(
       {this.sTATUS,
@@ -122,7 +122,7 @@ class Transaction {
     data['ISRISK'] = this.iSRISK;
     data['BANKNAME'] = this.bANKNAME;
     if (this.cARDDETAILS != null) {
-      data['CARD_DETAILS'] = this.cARDDETAILS.toJson();
+      data['CARD_DETAILS'] = this.cARDDETAILS!.toJson();
     }
     if (this.eMIDETAILS != null) {
       data['EMI_DETAILS'] = this.eMIDETAILS;
@@ -140,11 +140,11 @@ class Transaction {
 }
 
 class CARDDETAILS {
-  String pRIACCNOSTART;
-  String pRIACCNOEND;
-  String cARDISSUER;
-  String cARDTYPE;
-  String cARDCOUNTRY;
+  String? pRIACCNOSTART;
+  String? pRIACCNOEND;
+  String? cARDISSUER;
+  String? cARDTYPE;
+  String? cARDCOUNTRY;
 
   CARDDETAILS(
       {this.pRIACCNOSTART,

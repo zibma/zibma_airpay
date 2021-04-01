@@ -1,14 +1,15 @@
- import 'package:flutter/material.dart';
-import 'package:crypto/crypto.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:intl/intl.dart';
 import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:intl/intl.dart';
 import 'package:zibma_airpay/model/UserRequest.dart';
 
 class AirpayHome extends StatefulWidget {
   final UserRequest user;
-  AirpayHome({Key key, @required this.user}) : super(key: key);
+
+  AirpayHome({Key? key, required this.user}) : super(key: key);
 
   @override
   _AirpayHomeState createState() => _AirpayHomeState();
@@ -18,6 +19,7 @@ class _AirpayHomeState extends State<AirpayHome> {
   var sha;
   var md;
   var url;
+
   void _encryptSHA256() {
     var date = new DateTime.now();
     var format = DateFormat("yyyy-MM-dd");
@@ -28,7 +30,7 @@ class _AirpayHomeState extends State<AirpayHome> {
     var setAllData = utf8.encode(
         '${widget.user.email}${widget.user.fname}${widget.user.lname}${widget.user.fulladdress}${widget.user.city}${widget.user.state}${widget.user.country}${widget.user.amount}${widget.user.orderid}$formattedDate$privatekey');
     var checksum = md5.convert(setAllData);
-    var protocolDomain = getProtoDomain(widget.user.successUrl);
+    var protocolDomain = getProtoDomain(widget.user.successUrl!);
     List<int> bytes = ascii.encode(protocolDomain);
     var encoded = base64.encode(bytes);
 
@@ -57,7 +59,7 @@ class _AirpayHomeState extends State<AirpayHome> {
         "  <input type='hidden' name='chmod' value='${user.chMode}'><br>" +
         "  <input type='hidden' name='customvar' value='${user.customVar}'><br>" +
         "  <input type='hidden' name='txnsubtype' value='${user.txnSubtype}'><br>" +
-        "  <input type='hidden' name='wallet' value='${user.wallet + user.txnSubtype}'><br>" +
+        "  <input type='hidden' name='wallet' value='${user.wallet! + user.txnSubtype!}'><br>" +
         "</form>" +
         "</body>" +
         "</html>";
@@ -65,46 +67,46 @@ class _AirpayHomeState extends State<AirpayHome> {
     var sPostData = "mer_dom=" +
         encoded +
         "&currency=" +
-        widget.user.currency +
+        widget.user.currency! +
         "&isocurrency=" +
-        widget.user.isCurrency +
+        widget.user.isCurrency! +
         "&orderid=" +
-        widget.user.orderid +
+        widget.user.orderid! +
         "&privatekey=" +
         privatekey.toString() +
         "&checksum=" +
         checksum.toString() +
         "&mercid=" +
-        widget.user.merchantId +
+        widget.user.merchantId! +
         "&buyerEmail=" +
-        widget.user.email +
+        widget.user.email! +
         "&buyerPhone=" +
-        widget.user.phone +
+        widget.user.phone! +
         "&buyerFirstName=" +
-        widget.user.fname +
+        widget.user.fname! +
         "&buyerLastName=" +
-        widget.user.lname +
+        widget.user.lname! +
         "&buyerAddress=" +
-        widget.user.fulladdress +
+        widget.user.fulladdress! +
         "&buyerCity=" +
-        widget.user.city +
+        widget.user.city! +
         "&buyerState=" +
-        widget.user.state +
+        widget.user.state! +
         "&buyerCountry=" +
-        widget.user.country +
+        widget.user.country! +
         "&buyerPinCode=" +
-        widget.user.pincode +
+        widget.user.pincode! +
         "&amount=" +
-        widget.user.amount +
+        widget.user.amount! +
         "&chmod=" +
-        widget.user.chMode +
+        widget.user.chMode! +
         "&customvar=" +
-        widget.user.customVar +
+        widget.user.customVar! +
         "&txnsubtype=" +
-        widget.user.txnSubtype +
+        widget.user.txnSubtype! +
         "&wallet=" +
-        widget.user.wallet +
-        widget.user.txnSubtype;
+        widget.user.wallet! +
+        widget.user.txnSubtype!;
     print("postdata : $sPostData");
     setState(() {
       sha = privatekey;
@@ -129,49 +131,49 @@ class _AirpayHomeState extends State<AirpayHome> {
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
                 child: Text(
-                  widget.user.fname,
+                  widget.user.fname!,
                   style: TextStyle(color: Colors.black, fontSize: 24),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
                 child: Text(
-                  widget.user.lname,
+                  widget.user.lname!,
                   style: TextStyle(color: Colors.black, fontSize: 24),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
                 child: Text(
-                  widget.user.email,
+                  widget.user.email!,
                   style: TextStyle(color: Colors.black, fontSize: 24),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
                 child: Text(
-                  widget.user.phone,
+                  widget.user.phone!,
                   style: TextStyle(color: Colors.black, fontSize: 24),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
                 child: Text(
-                  widget.user.city,
+                  widget.user.city!,
                   style: TextStyle(color: Colors.black, fontSize: 24),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
                 child: Text(
-                  widget.user.state,
+                  widget.user.state!,
                   style: TextStyle(color: Colors.black, fontSize: 24),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(32.0, 5.0, 32.0, 5.0),
                 child: Text(
-                  widget.user.country,
+                  widget.user.country!,
                   style: TextStyle(color: Colors.black, fontSize: 24),
                 ),
               ),
