@@ -133,7 +133,7 @@ class _AirPayState extends State<AirPay> {
         'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8';
 
     var response = await dio.post(urlString, data: formData);
-    print(response);
+    // print(response);
     final myTransformer = Xml2Json();
     var stingDAta = response.data.toString();
     stingDAta = stingDAta.replaceAll("<![CDATA[", "").replaceAll("]]>", "");
@@ -305,7 +305,7 @@ class _AirPayState extends State<AirPay> {
                       // },
                       onTitleChanged: (controller, title) {
                         setState(() {
-                          print("onTitleChanged : $title");
+                          // print("onTitleChanged : $title");
                         });
                       },
                       onWebViewCreated: (InAppWebViewController controller) {},
@@ -337,7 +337,7 @@ class _AirPayState extends State<AirPay> {
                       // },
                       onLoadStart: (controller, url) {
                         setState(() {
-                          print("onLoadStart : $url");
+                          // print("onLoadStart : $url");
                           var succesPath =
                               getProtoDomain(widget.user.successUrl!);
                           var webURLPath = getProtoDomain(url.toString());
@@ -397,10 +397,10 @@ class _AirPayState extends State<AirPay> {
                           if (url.toString().startsWith(failurePath!)) {
                             setState(() {
                               userCancel('Transaction failed');
-                              print('onLoad Stop in - $url');
+                              // print('onLoad Stop in - $url');
                             });
                           } else {
-                            print('on Load Stop: not error URL: $url');
+                            // print('on Load Stop: not error URL: $url');
                           }
                         });
                       },

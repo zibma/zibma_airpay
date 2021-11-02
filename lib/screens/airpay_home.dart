@@ -107,7 +107,6 @@ class _AirpayHomeState extends State<AirpayHome> {
         "&wallet=" +
         widget.user.wallet! +
         widget.user.txnSubtype!;
-    print("postdata : $sPostData");
     setState(() {
       sha = privatekey;
       md = checksum;
